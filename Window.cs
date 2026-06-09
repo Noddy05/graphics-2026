@@ -12,6 +12,7 @@ using Graphics2026.Model.Game.BuildTools;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using Graphics2026.Model.Actors;
 using Graphics2026.Model.Mesh;
+using Graphics2026.View.Shading;
 
 namespace Graphics2026
 {
@@ -21,9 +22,6 @@ namespace Graphics2026
 
         private double timeSinceStart;
         private Builder builder;
-
-        private Actor pivot = new Actor();
-        private Actor child = new Actor();
 
         public Window() : base(GameWindowSettings.Default, new NativeWindowSettings
         {
@@ -47,6 +45,9 @@ namespace Graphics2026
             GL.Enable(EnableCap.DepthTest);
             GL.CullFace(TriangleFace.Back);
             GL.Enable(EnableCap.StencilTest);
+            GL.Enable(EnableCap.Blend);
+
+            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
 
             GL.ClearColor(Color4.DarkGray);
 
@@ -60,12 +61,6 @@ namespace Graphics2026
             //BuildOnFloor gridTiler = new BuildOnFloor();
 
             IsVisible = true;
-
-
-            child.transform.localPosition = new Vector3(1, 0, 0);
-            child.mesh = MeshGenerator.Cube();
-            child.transform.localSize *= 0.25f;
-            child.shader = new DefaultLit();
         }
 
         protected override void OnResize(ResizeEventArgs e)
@@ -83,22 +78,6 @@ namespace Graphics2026
 
             Title = "Time spent Pathfinding: " + Profiler.GetTime(typeof(Window)).ToString("0.00")
                 + "ms - FPS: " + (1 / args.Time).ToString("0.00");
-
-            pivot.transform.localPosition.Z = MathF.Sin((float)timeSinceStart) - 4;
-            pivot.transform.localRotation.Y = 4 * (float)timeSinceStart;
-
-            WireRenderer.DrawTransform(pivot, 0.25f);
-            if(Input.GetKeyDown(Keys.V))
-            {
-                if (child.transform.GetParent() == null)
-                {
-                    child.SetParent(pivot);
-                } 
-                else
-                {
-                    child.SetParent(null);
-                }
-            }
 
             if (Input.ToggleProfilerRecord())
                 Profiler.record = !Profiler.record;
@@ -132,6 +111,7 @@ namespace Graphics2026
                 return;
 
             renderer.RenderScene();
+
             Context.SwapBuffers();
 
             GL.StencilMask(0xFF);

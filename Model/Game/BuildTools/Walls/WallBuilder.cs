@@ -15,12 +15,15 @@ namespace Graphics2026.Model.Game.BuildTools.Walls
     {
         private Vector3? previousPoint;
 
-
         public WallBuilder() : base([ SurfaceType.Floor ])
         {
 
         }
 
+        protected override void EndOfUpdates()
+        {
+            previousPoint = null;
+        }
         protected override void Update(float deltaTime)
         {
             WireRenderer.SetColor(Color4.Red);

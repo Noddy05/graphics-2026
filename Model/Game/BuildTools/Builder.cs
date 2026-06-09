@@ -1,4 +1,6 @@
 ﻿using Graphics2026.Controller;
+using Graphics2026.View.Shading.Shaders;
+using OpenTK.Mathematics;
 
 namespace Graphics2026.Model.Game.BuildTools
 {
@@ -6,6 +8,9 @@ namespace Graphics2026.Model.Game.BuildTools
     {
         public List<BuildTool> buildTools = new();
         private int toolIndex = -1;
+
+        public static InFrontShader HIGHLIGHT_SHADER = new InFrontShader(new Color4(0, 255, 0, 100));
+        public static InFrontShader HIGHLIGHT_ERROR_SHADER = new InFrontShader(new Color4(255, 0, 0, 100));
 
         public Builder() { 
         
@@ -15,11 +20,11 @@ namespace Graphics2026.Model.Game.BuildTools
         {
             for(int i = 0; i < buildTools.Count; i++)
             {
-                if (Input.GetNumberKey(i + 1))
+                if (Input.GetNumberKeyDown(i + 1))
                     ActiveTool(i);
             }
 
-            if (Input.GetNumberKey(0))
+            if (Input.GetNumberKeyDown(0))
                 DeactiveTools();
         }
 
@@ -32,7 +37,10 @@ namespace Graphics2026.Model.Game.BuildTools
         public void ActiveTool(int index)
         {
             if (index == toolIndex)
+            {
+                DeactiveTools();
                 return;
+            }
 
             if (index >= buildTools.Count || index < 0)
             {

@@ -48,7 +48,7 @@ namespace Graphics2026.Model.SceneManagement
             */
 
             Floor floor = new Floor();
-            floor.SetSize(new Vector2i(3, 3));
+            floor.SetSize(new Vector2i(20, 30));
             SceneManager.CurrentScene().surfaces.Add(floor);
 
             /*

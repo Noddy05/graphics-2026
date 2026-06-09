@@ -33,3 +33,4 @@ C:\Users\noah0\Programmering\C#\Graphics2026\Graphics2026\bin\Debug\net8.0\Syste
 C:\Users\noah0\Programmering\C#\Graphics2026\Graphics2026\bin\Debug\net8.0\System.Private.Windows.Core.dll
 C:\Users\noah0\Programmering\C#\Graphics2026\Graphics2026\bin\Debug\net8.0\System.Private.Windows.GdiPlus.dll
 C:\Users\noah0\Programmering\C#\Graphics2026\Graphics2026\bin\Debug\net8.0\runtimes\win\lib\net8.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\noah0\Programmering\C#\Graphics2026\Graphics2026\obj\Debug\net8.0\Graphics2026.sourcelink.json

@@ -1,13 +1,15 @@
-﻿using Graphics2026.Model.SceneManagement;
+﻿using Graphics2026.Model.Attachments.CameraControls;
+using Graphics2026.Model.SceneManagement;
 using Graphics2026.Model.VertexData;
-using Graphics2026.View.Shading;
+using Graphics2026.View.Shading.Shaders;
 using OpenTK.Graphics.OpenGL;
 
 namespace Graphics2026.Model.Actors
 {
-    internal class Renderable<T> : IRenderable where T : struct, IVertex
+    internal abstract class Renderable<T> : IRenderable where T : struct, IVertex
     {
         public string name;
+        public PhysicalShader? shader;
         protected int actorNo;
         protected static int actorCounter = 1;
 
@@ -39,10 +41,32 @@ namespace Graphics2026.Model.Actors
             mesh.PrepareForRendering();
             GL.DrawElements(primitiveType, mesh.NumIndices(), DrawElementsType.UnsignedInt, 0);
         }
+        public void RenderFamilyWithShader(PhysicalShader shader)
+        {
+            foreach(Transform child in transform.GetChildren())
+            {
+                child.GetRenderable().RenderFamilyWithShader(shader);
+            }
+
+            RenderWithShader(shader);
+        }
 
         public void SetRenderStatus(bool shouldRender) => this.shouldRender = shouldRender;
         public bool GetRenderStatus() => shouldRender;
         public void SetParent(Transform? parent) => GetTransform().SetParent(parent);
+
+        public virtual void RenderWithShader(PhysicalShader shader)
+        {
+            if (mesh == null)
+                return;
+
+            shader.UseProgram();
+            shader.ApplyTransform(transform.WorldTransform());
+            shader.ApplyCameraAndProjection(Camera.current);
+
+            mesh.PrepareForRendering();
+            GL.DrawElements(primitiveType, mesh.NumIndices(), DrawElementsType.UnsignedInt, 0);
+        }
 
         public static implicit operator Transform(Renderable<T> renderable) => renderable.GetTransform();
     }

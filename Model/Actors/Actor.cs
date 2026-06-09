@@ -9,7 +9,6 @@ namespace Graphics2026.Model.Actors
 {
     internal class Actor : Renderable<Vertex>
     {
-        public PhysicalShader? shader;
         public readonly List<ActorAttachment> attachments = new List<ActorAttachment>();
 
         public Actor() : base(PrimitiveType.Triangles) { }

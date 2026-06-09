@@ -45,6 +45,20 @@ namespace Graphics2026.Controller
 
             return GetKey((Keys)(48 + number));
         }
+        public static bool GetNumberKeyDown(int number)
+        {
+            if (number < 0 || number > 9)
+                return false;
+
+            return GetKeyDown((Keys)(48 + number));
+        }
+        public static bool GetNumberKeyUp(int number)
+        {
+            if (number < 0 || number > 9)
+                return false;
+
+            return GetKeyUp((Keys)(48 + number));
+        }
 
         public static bool GetMouseButton(MouseButton button) => window.IsMouseButtonDown(button);
         public static bool GetMouseButtonDown(MouseButton button) => window.IsMouseButtonPressed(button);

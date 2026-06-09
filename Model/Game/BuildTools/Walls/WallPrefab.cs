@@ -21,6 +21,11 @@ namespace Graphics2026.Model.Game.BuildTools.Walls
             if (wallToCutout != null)
                 wallToCutout.AddCutout(cutout);
         }
+        public void SetTemporaryCutout(List<IRenderable> cutouts)
+        {
+            if (wallToCutout != null)
+                wallToCutout.SetTemporaryCutout(cutouts);
+        }
 
         public void SetWallToCutout(Wall wall)
         {

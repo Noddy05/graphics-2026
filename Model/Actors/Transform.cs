@@ -1,5 +1,6 @@
 ﻿
 using OpenTK.Mathematics;
+using System.Collections.Generic;
 
 namespace Graphics2026.Model.Actors
 {
@@ -22,8 +23,16 @@ namespace Graphics2026.Model.Actors
 
         public void SetParent(Transform? parent)
         {
+            if (parent != null && IsDescendentOfTransform(parent))
+            {
+                Console.WriteLine("Cannot set parent: parent is a child of transform");
+                return;
+            }
+
             if (this.parent != null)
+            {
                 this.parent.children.Remove(this);
+            }
 
             Matrix4 previousWorldTransform = WorldTransform();
             this.parent = parent;
@@ -36,12 +45,31 @@ namespace Graphics2026.Model.Actors
             parent.children.Add(this);
         }
 
+        /// <summary>
+        /// Checks if a transform is a descendent of this transform.
+        /// <br></br>
+        /// AKA is a child of the transform, or a child of a child and so on...
+        /// </summary>
+        /// <returns></returns>
+        public bool IsDescendentOfTransform(Transform descendent) => GetDescendents().Contains(descendent);
+
         public Transform? GetChild(int i)
         {
-            if(i < children.Count)
+            if (i < children.Count)
                 return children[i];
 
             return null;
+        }
+        public List<Transform> GetChildren() => children;
+        public List<Transform> GetDescendents() 
+        {
+            List<Transform> descendents = [.. children];
+            foreach(Transform child in children)
+            {
+                descendents.AddRange(child.GetDescendents());
+            }
+
+            return descendents;
         }
         public Transform? GetParent() => parent;
         public IRenderable GetRenderable() => renderable;

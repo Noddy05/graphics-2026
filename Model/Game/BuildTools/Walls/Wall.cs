@@ -6,6 +6,7 @@ namespace Graphics2026.Model.Game.BuildTools.Walls
     internal class Wall : Actor
     {
         private List<IRenderable> cutouts = new();
+        private List<IRenderable> tempCutouts = new();
 
         public Wall() : this($"New Wall ({actorCounter})") { }
         public Wall(string name) : base(name) { }
@@ -21,6 +22,11 @@ namespace Graphics2026.Model.Game.BuildTools.Walls
         {
             renderable.SetRenderStatus(false);
             cutouts.Add(renderable);
+            renderable.SetParent(this);
+        }
+        public void SetTemporaryCutout(List<IRenderable> cutouts)
+        {
+            tempCutouts = cutouts;
         }
         public void ClearCutouts()
         {
@@ -43,7 +49,11 @@ namespace Graphics2026.Model.Game.BuildTools.Walls
             GL.DepthFunc(DepthFunction.Lequal);
             GL.StencilOp(StencilOp.Keep, StencilOp.Keep, StencilOp.Replace);
 
-            foreach(IRenderable cutout in cutouts)
+            foreach (IRenderable cutout in cutouts)
+            {
+                cutout.Render();
+            }
+            foreach (IRenderable cutout in tempCutouts)
             {
                 cutout.Render();
             }

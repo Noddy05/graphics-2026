@@ -12,5 +12,5 @@ void main(){
     vec3 toSun = normalize(vec3(-1, 2, 1.2));
     float lightLevel = max(0.1, dot(vNormal, toSun));
     
-    oColor = color * lightLevel;
+    oColor = vec4(color.rgb * lightLevel, color.a);
 }
