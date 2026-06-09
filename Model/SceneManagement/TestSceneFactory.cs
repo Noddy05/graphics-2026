@@ -69,7 +69,7 @@ namespace Graphics2026.Model.SceneManagement
             SceneManager.CurrentScene().grids.Add(floorGrid);*/
 
             Actor oneWayDoor = new Actor();
-            oneWayDoor.mesh = MeshImport.OBJ(Program.LOCAL + "Assets/one_way_door.obj");
+            oneWayDoor.mesh = MeshImport.OBJ(Program.LOCAL + "Assets/one_way_door.obj")[0];
             oneWayDoor.transform.localPosition = new Vector3(14.5f, 0, -0.5f);
             oneWayDoor.transform.localSize *= 0.5f;
             oneWayDoor.shader = new DefaultLit();

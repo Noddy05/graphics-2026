@@ -22,7 +22,7 @@ namespace Graphics2026.Model.Game.BuildTools.Walls
 
         public WallMod() : base([ SurfaceType.Wall ])
         {
-            windowFrameMesh = MeshImport.OBJ(Program.LOCAL + "Assets/window_frame.obj");
+            windowFrameMesh = Mesh<Vertex>.Combine(MeshImport.OBJ(Program.LOCAL + "Assets/window_frame.obj"));
 
             visualizeCutout = new SimpleActor();
             visualizeCutout.mesh = MeshGenerator.Cutout();
@@ -67,7 +67,7 @@ namespace Graphics2026.Model.Game.BuildTools.Walls
             preVisualization.transform.localPosition = point;
             preVisualization.transform.localRotation = wallPrefab.transform.localRotation;
 
-            if(CanPlace(point, wallPrefab, surface))
+            if(!CanPlace(point, wallPrefab, surface))
             {
                 preVisualization.RenderFamilyWithShader(Builder.HIGHLIGHT_ERROR_SHADER);
                 return;

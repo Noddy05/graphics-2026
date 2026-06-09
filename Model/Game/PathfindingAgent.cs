@@ -33,7 +33,7 @@ namespace Graphics2026.Model.Game
             if (shader == null)
                 shader = new DefaultLit();
             if (mesh == null)
-                mesh = MeshImport.OBJ(Program.LOCAL + "Assets/hotdog_character.obj");
+                mesh = MeshImport.OBJ(Program.LOCAL + "Assets/hotdog_character.obj")[0];
 
             actor.mesh = mesh;
 
