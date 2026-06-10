@@ -4,12 +4,8 @@ using Graphics2026.View.Shading.Shaders;
 using OpenTK.Mathematics;
 using Graphics2026.Model.VertexData;
 using Graphics2026.Model.Game;
-using Graphics2026.Model.Game.Shopping;
 using Graphics2026.Model.MeshGeneration;
 using Graphics2026.Model.Mesh;
-using Graphics2026.Model.Game.BuildTools.Walls;
-using Graphics2026.Model.Game.BuildTools.Deprecated;
-using Graphics2026.Model.Actors.Gizmos;
 using Graphics2026.Model.Game.BuildTools;
 
 namespace Graphics2026.Model.SceneManagement
@@ -74,9 +70,9 @@ namespace Graphics2026.Model.SceneManagement
             oneWayDoor.transform.localSize *= 0.5f;
             oneWayDoor.shader = new DefaultLit();
 
-            //NavigationGrid navGrid = new NavigationGrid();
-            //navGrid.SetGridSize(new Vector2i(30, 30));
-            //SceneManager.CurrentScene().grids.Add(navGrid);
+            NavigationGrid navGrid = new NavigationGrid();
+            navGrid.SetSize(new Vector2i(20, 30));
+            SceneManager.CurrentScene().renderables.Add(navGrid);
 
             /*
             Random rand = new Random();

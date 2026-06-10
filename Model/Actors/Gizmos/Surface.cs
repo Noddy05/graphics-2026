@@ -1,4 +1,5 @@
-﻿using Graphics2026.View;
+﻿using Graphics2026.Model.SceneManagement;
+using Graphics2026.View;
 using OpenTK.Mathematics;
 
 namespace Graphics2026.Model.Actors.Gizmos
@@ -14,9 +15,13 @@ namespace Graphics2026.Model.Actors.Gizmos
         protected Vector2 size;
         protected List<SurfaceType> surfaceType = new();
 
-        public Surface() { }
-        public Surface(string name) : base(name) { }
-        public Surface(Vector2 size)
+        public Surface() : base() { 
+            SceneManager.CurrentScene().surfaces.Add(this);
+        }
+        public Surface(string name) : base(name) { 
+            SceneManager.CurrentScene().surfaces.Add(this);
+        }
+        public Surface(Vector2 size) : this()
         {
             this.size = size;
         }

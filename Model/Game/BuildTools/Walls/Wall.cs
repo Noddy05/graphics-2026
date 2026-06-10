@@ -1,4 +1,5 @@
 ﻿using Graphics2026.Model.Actors;
+using Graphics2026.Model.Game.BuildTools.NavigationObstacles;
 using OpenTK.Graphics.OpenGL;
 
 namespace Graphics2026.Model.Game.BuildTools.Walls

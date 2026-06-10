@@ -13,6 +13,8 @@ using OpenTK.Windowing.GraphicsLibraryFramework;
 using Graphics2026.Model.Actors;
 using Graphics2026.Model.Mesh;
 using Graphics2026.View.Shading;
+using Graphics2026.Model.Game.BuildTools.Interior;
+using Graphics2026.Shopping;
 
 namespace Graphics2026
 {
@@ -48,16 +50,17 @@ namespace Graphics2026
             GL.Enable(EnableCap.Blend);
 
             GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
-
             GL.ClearColor(Color4.DarkGray);
 
             new Materials();
-            builder = new Builder()
-                .AddTool(new WallBuilder())
-                .AddTool(new WallMod());
+            builder = new Builder();
+            builder.AddTool(new GroundTool());
+            new CreateStore();
+            //builder.AddTool(new WallBuilder())
+            //builder.AddTool(new WallMod());
 
-            new GridController();
-            TestSceneFactory.InitializeScene();
+            //new GridController();
+            //TestSceneFactory.InitializeScene();
             //BuildOnFloor gridTiler = new BuildOnFloor();
 
             IsVisible = true;
@@ -111,6 +114,9 @@ namespace Graphics2026
                 return;
 
             renderer.RenderScene();
+
+            SurfaceSelect.RaycastSelectSurface(out Vector3 point, out _);
+            WireRenderer.DrawCircle(point, NavigationObstacle.SDF(point.Xz));
 
             Context.SwapBuffers();
 

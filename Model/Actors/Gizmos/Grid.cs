@@ -25,6 +25,7 @@ namespace Graphics2026.Model.Actors.Gizmos
             gridSubdivisions = int.Clamp(gridSubdivisions, 0, maxSubdivisions);
         }
         public static int GetSubdivisions() => gridSubdivisions;
+        public static int GetSubdivisionsPow2() => 1 << gridSubdivisions;
 
         private void RenderGrid()
         {
@@ -80,8 +81,8 @@ namespace Graphics2026.Model.Actors.Gizmos
         }
 
         public Vector3 RoundOffset() => (transform.Right() *
-            (size.X % 2 + 2 * MathF.Ceiling(transform.localPosition.X)) -
-            transform.Forward() * (size.Y % 2 + 2 * MathF.Ceiling(transform.localPosition.Z))) / 2f;
+            ((size.X + 1) % 2 + 2 * MathF.Ceiling(transform.localPosition.X)) -
+            transform.Forward() * ((size.Y + 1) % 2 + 2 * MathF.Ceiling(transform.localPosition.Z))) / 2f;
 
         public Vector3 GridSpaceToWorldSpace(Vector2i tile)
         {

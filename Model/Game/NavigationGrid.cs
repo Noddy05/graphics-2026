@@ -1,20 +1,25 @@
 ﻿
 using Graphics2026.Model.Actors.Gizmos;
+using Graphics2026.Model.Game.BuildTools.Interior;
 using Graphics2026.View;
-using OpenTK.Graphics.ES11;
 using OpenTK.Mathematics;
 
 namespace Graphics2026.Model.Game
 {
     internal class NavigationGrid : Grid
     {
+        private static int gridSubdivisions = 3;
         private List<Vector2i> blockedSquares = new List<Vector2i>();
 
-        public NavigationGrid() { }
-        public NavigationGrid(Vector2i[] squares) {
+        private Vector2i Size => GridSize() * (1 << gridSubdivisions);
+
+        public NavigationGrid() : base() {
+            SetType(SurfaceType.Floor);
+        }
+        public NavigationGrid(Vector2i[] squares) : this() {
             foreach(Vector2i v in squares) { 
-                if(0 <= v.X && v.X < GridSize().X &&
-                    0 <= v.Y && v.Y < GridSize().Y)
+                if(0 <= v.X && v.X < Size.X &&
+                    0 <= v.Y && v.Y < Size.Y)
                     blockedSquares.Add(v);
             }
         }
@@ -23,18 +28,21 @@ namespace Graphics2026.Model.Game
         {
             blockedSquares.Add(coordinate);
         }
+        private int Divisions() => 1 << gridSubdivisions;
 
         public float[][] CalculateCosts(Vector2i target)
         {
-            float[][] costs = new float[GridSize().X][];
-            for (int i = 0; i < costs.Length; i++)
+            float[][] costs = new float[Size.X][];
+            for (int x = 0; x < costs.Length; x++)
             {
-                costs[i] = new float[GridSize().Y];
-            }
-
-            foreach (Vector2i blockage in blockedSquares)
-            {
-                costs[blockage.X][blockage.Y] = float.PositiveInfinity;
+                costs[x] = new float[Size.Y];
+                for(int y = 0; y < costs[x].Length; y++)
+                {
+                    Vector2 pos = new Vector2(x, y) / Divisions() - size / 2f;
+                    float d = NavigationObstacle.SDF(pos);
+                    if(4 * d < 1)
+                        costs[x][y] = float.PositiveInfinity;
+                }
             }
 
             Queue<Vector2i> queue = new Queue<Vector2i>();
@@ -54,10 +62,19 @@ namespace Graphics2026.Model.Game
         {
             base.Render();
             WireRenderer.SetColor(Color4.Red);
-            foreach (Vector2i v in blockedSquares)
+            /*
+            int divisions = Divisions();
+            float[][] costs = CalculateCosts(new Vector2i(0, 0));
+            for (int x = 0; x < GridSize().X * divisions; x++)
             {
-                WireRenderer.DrawCircle(GridSpaceToWorldSpace(v), 0.5f);
+                for(int y = 0; y < GridSize().Y * divisions; y++)
+                {
+                    if (costs[x][y] == float.PositiveInfinity)
+                        WireRenderer.DrawCircle(new Vector3(x, 0, y) / divisions 
+                            - new Vector3(size.X, 0, size.Y) / 2f, 1f / divisions);
+                }
             }
+            */
         }
 
         // 7 0 1

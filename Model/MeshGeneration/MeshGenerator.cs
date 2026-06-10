@@ -67,6 +67,28 @@ namespace Graphics2026.Model.Mesh
 
             return new Mesh<Vertex>(vertices, RegularFilledPolygonIndices(numVertices));
         }
+        public static Mesh<Vertex> Quad()
+        {
+            //   0------1
+            //   |      |
+            //   |      |
+            //   3------2
+            Vertex[] vertices =
+            {
+                new Vertex(new Vector3(-0.5f, 0,  0.5f), Vector3.UnitY, new Vector2(0, 1)),
+                new Vertex(new Vector3( 0.5f, 0,  0.5f), Vector3.UnitY, new Vector2(1, 1)),
+                new Vertex(new Vector3( 0.5f, 0, -0.5f), Vector3.UnitY, new Vector2(1, 0)),
+                new Vertex(new Vector3(-0.5f, 0, -0.5f), Vector3.UnitY, new Vector2(0, 0)),
+            };
+            uint[] indices =
+            {
+                0, 1, 3,
+                1, 2, 3
+            };
+
+            return new Mesh<Vertex>(vertices, indices);
+        }
+
 
         public static Mesh<Point> SimpleQuad()
         {

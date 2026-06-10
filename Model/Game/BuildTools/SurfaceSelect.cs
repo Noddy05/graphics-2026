@@ -9,9 +9,13 @@ namespace Graphics2026.Model.Game.BuildTools
     internal static class SurfaceSelect
     {
         public static Surface? RaycastSelectSurface(out Vector3 point, out float rayLength)
-            => RaycastFindSurface(GetMouseRay(), out point, out rayLength);
+            => RaycastFindSurface(GetMouseRay(), out point, out rayLength, []);
+        public static Surface? RaycastSelectSurface(out Vector3 point, out float rayLength,
+            SurfaceType[] collideWithSurfaces)
+            => RaycastFindSurface(GetMouseRay(), out point, out rayLength, collideWithSurfaces);
 
-        public static Surface? RaycastFindSurface(Ray ray, out Vector3 point, out float rayLength)
+        public static Surface? RaycastFindSurface(Ray ray, out Vector3 point, out float rayLength, 
+            SurfaceType[] collideWithSurfaces)
         {
             Surface? selectedSurface = null;
 
@@ -20,6 +24,23 @@ namespace Graphics2026.Model.Game.BuildTools
 
             foreach (Surface surface in SceneManager.CurrentScene().surfaces)
             {
+                if(collideWithSurfaces.Length > 0)
+                {
+                    bool collideWithSurface = false;
+                    foreach (SurfaceType type in collideWithSurfaces)
+                    {
+                        if(surface.IsType(type))
+                        {
+                            collideWithSurface = true;
+                            break;
+                        }
+                    }
+
+                    if (!collideWithSurface)
+                        continue;
+                }
+                
+
                 if (!PointOnSurface(ray, surface, out Vector3 p, out float length))
                     continue;
 

@@ -67,8 +67,9 @@ namespace Graphics2026.Model.Game.BuildTools.Walls
             float wallThickness = 0.1f;
             float wallLength = Helper.Flatten(A - B).Length / 2f;
 
-            WallPrefab wall = new WallPrefab();
+            WallPrefab wall = new WallPrefab(A.Xz, B.Xz);
             wall.thickness = wallThickness;
+            wall.UpdateNavObstacle();
 
             DefaultLit shader = new DefaultLit();
             shader.color = Color4.Pink;
