@@ -21,6 +21,15 @@ namespace Graphics2026.Model.Actors
             this.renderable = renderable;
         }
 
+        public void CopyTransform(Transform transform)
+        {
+            localPosition = transform.localPosition;
+            localRotation = transform.localRotation;
+            localSize = transform.localSize;
+
+            matrixMod = transform.matrixMod;
+        }
+
         public void SetParent(Transform? parent)
         {
             if (parent != null && IsDescendentOfTransform(parent))

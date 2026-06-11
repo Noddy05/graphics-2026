@@ -14,6 +14,18 @@ namespace Graphics2026.Model.Actors
         public Actor() : base(PrimitiveType.Triangles) { }
         public Actor(string name) : base(name, PrimitiveType.Triangles) { }
 
+        public override Actor Clone()
+        {
+            Actor clone = new Actor(name);
+            clone.shader = shader;
+            clone.mesh = mesh;
+            clone.shouldRender = shouldRender;
+            clone.transform.CopyTransform(transform);
+            clone.attachments.AddRange(attachments);
+
+            return clone;
+        }
+
         public override void Render()
         {
             if (mesh == null)

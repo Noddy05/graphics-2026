@@ -6,7 +6,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace Graphics2026.Model.Actors
 {
-    internal abstract class Renderable<T> : IRenderable where T : struct, IVertex
+    internal class Renderable<T> : IRenderable where T : struct, IVertex
     {
         public string name;
         public PhysicalShader? shader;
@@ -66,6 +66,17 @@ namespace Graphics2026.Model.Actors
 
             mesh.PrepareForRendering();
             GL.DrawElements(primitiveType, mesh.NumIndices(), DrawElementsType.UnsignedInt, 0);
+        }
+
+        public virtual IRenderable Clone()
+        {
+            Renderable<T> clone = new Renderable<T>(name, primitiveType);
+            clone.shader = shader;
+            clone.mesh = mesh;
+            clone.shouldRender = shouldRender;
+            clone.transform.CopyTransform(transform);
+
+            return clone;
         }
 
         public static implicit operator Transform(Renderable<T> renderable) => renderable.GetTransform();

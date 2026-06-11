@@ -14,5 +14,6 @@ namespace Graphics2026.Model.Actors
         public string GetName();
         public Transform GetTransform();
         public void SetParent(Transform? parent);
+        public abstract IRenderable Clone();
     }
 }
