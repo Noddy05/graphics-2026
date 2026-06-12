@@ -1,10 +1,8 @@
 ﻿using Graphics2026.Controller;
-using Graphics2026.Model.Actors;
 using Graphics2026.Model.Actors.Gizmos;
 using Graphics2026.Model.Game.BuildTools;
-using Graphics2026.Model.Mesh;
+using Graphics2026.Model.SceneManagement;
 using Graphics2026.View;
-using Graphics2026.View.Shading.Shaders;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 
@@ -12,19 +10,16 @@ namespace Graphics2026.Shopping
 {
     internal class GroundTool : BuildTool
     {
-        private Actor currentPrefab;
+        private Prefab currentPrefab;
         private Dictionary<Grid, int[][]> floors = new();
+        private int prefabIndex = 1;
 
         public GroundTool() : base([ SurfaceType.Floor ])
         {
             isActive = true;
 
-            currentPrefab = new Actor();
-            currentPrefab.mesh = MeshGenerator.Cube();
-            currentPrefab.mesh.BakeTransformation(Matrix4.CreateTranslation(Vector3.UnitY) 
-                * Matrix4.CreateScale(0.5f, 0.02f, 0.5f));
-            currentPrefab.shader = new DefaultLit();
-            currentPrefab.SetRenderStatus(false);
+            currentPrefab = AllFloors.GetFloor(prefabIndex).Instantiate();
+            //SceneManager.AddToScene(currentPrefab.renderable!);
         }
 
         protected override void Update(float deltaTime)
@@ -36,10 +31,11 @@ namespace Graphics2026.Shopping
                 return;
 
             Vector3 position = grid.SnapToGrid(point);
+            Vector2i gridPosition = (Vector2i)grid.PointToGridSpace(position) + grid.GridSize() / 2;
 
             WireRenderer.DrawLine(Vector3.Zero, point);
-            currentPrefab.transform.localPosition = position;
-            currentPrefab.RenderFamilyWithShader(Builder.HIGHLIGHT_SHADER);
+            currentPrefab.renderable!.GetTransform().localPosition = position;
+            currentPrefab.renderable!.RenderFamilyWithShader(Builder.HIGHLIGHT_SHADER);
 
             if (!Input.GetMouseButtonDown(MouseButton.Left))
                 return;
@@ -53,8 +49,18 @@ namespace Graphics2026.Shopping
                 floors.Add(grid, floorGrid);
             }
 
-            Actor placed = currentPrefab.Clone();
-            placed.SetRenderStatus(true);
+            int floorIndex = floors[grid][gridPosition.X][gridPosition.Y];
+
+            int priceDiff = -AllFloors.GetFloor(prefabIndex).price;
+            if (floorIndex > 0)
+            {
+                priceDiff += AllFloors.GetFloor(floorIndex).price;
+            }
+            floors[grid][gridPosition.X][gridPosition.Y] = prefabIndex;
+            Player.ChangeBalance(priceDiff, position);
+
+            Prefab placed = currentPrefab.Instantiate();
+            SceneManager.AddToScene(placed.renderable);
         }
     }
 }

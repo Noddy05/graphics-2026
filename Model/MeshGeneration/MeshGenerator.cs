@@ -199,9 +199,8 @@ namespace Graphics2026.Model.Mesh
             //  |/       |/
             //  0--------1
 
-            Mesh<Vertex> quad = RegularFilledPolygon(4);
-            quad.BakeTransformation(Matrix4.CreateScale(MathF.Sqrt(2)) * Matrix4.CreateTranslation(0, 1f, 0) 
-                * Matrix4.CreateRotationY(MathF.PI / 4));
+            Mesh<Vertex> quad = Quad();
+            quad.BakeTransformation(Matrix4.CreateScale(2) * Matrix4.CreateTranslation(0, 1f, 0));
 
             Mesh<Vertex> bottomPlane = quad.Clone();
             bottomPlane.BakeTransformation(Matrix4.CreateRotationX(MathF.PI));

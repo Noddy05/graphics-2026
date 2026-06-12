@@ -23,7 +23,6 @@ namespace Graphics2026
         private Renderer? renderer;
 
         private double timeSinceStart;
-        private Builder builder;
 
         public Window() : base(GameWindowSettings.Default, new NativeWindowSettings
         {
@@ -53,8 +52,7 @@ namespace Graphics2026
             GL.ClearColor(Color4.DarkGray);
 
             new Materials();
-            builder = new Builder();
-            builder.AddTool(new GroundTool());
+            Player.SetBalance(10_000);
             new CreateStore();
             //builder.AddTool(new WallBuilder())
             //builder.AddTool(new WallMod());

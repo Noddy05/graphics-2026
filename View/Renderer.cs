@@ -2,6 +2,7 @@
 using Graphics2026.Model.Actors.Gizmos;
 using Graphics2026.Model.Game.BuildTools;
 using Graphics2026.Model.SceneManagement;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace Graphics2026.View
 {
@@ -20,19 +21,19 @@ namespace Graphics2026.View
         public virtual void RenderScene()
         {
             Scene scene = SceneManager.CurrentScene();
+            DrawRenderableFamily(scene.GetTransform());
+        }
 
-            /*
-            foreach (Wall wall in scene.walls)
+        protected virtual void DrawRenderableFamily(Transform transform)
+        {
+            foreach (Transform child in transform.GetChildren())
             {
-                DrawActor(wall);
-            }*/
-            foreach (IRenderable renderable in scene.renderables)
-            {
-                DrawActor(renderable);
+                DrawRenderable(child.GetRenderable());
+                DrawRenderableFamily(child);
             }
         }
 
-        protected virtual void DrawActor(IRenderable renderable)
+        protected virtual void DrawRenderable(IRenderable renderable)
         {
             if (!renderable.GetRenderStatus())
                 return;

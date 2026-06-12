@@ -1,5 +1,6 @@
 ﻿using Graphics2026.Model.Attachments;
 using Graphics2026.Model.Attachments.CameraControls;
+using Graphics2026.Model.SceneManagement;
 using Graphics2026.Model.VertexData;
 using Graphics2026.View.Shading;
 using Graphics2026.View.Shading.Shaders;
@@ -13,6 +14,12 @@ namespace Graphics2026.Model.Actors
 
         public Actor() : base(PrimitiveType.Triangles) { }
         public Actor(string name) : base(name, PrimitiveType.Triangles) { }
+
+        public override Actor AddToScene()
+        {
+            SceneManager.AddToScene(this);
+            return this;
+        }
 
         public override Actor Clone()
         {

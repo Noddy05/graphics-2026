@@ -2,6 +2,7 @@
 using Graphics2026.Model.Actors.Gizmos;
 using Graphics2026.Model.Attachments.CameraControls;
 using Graphics2026.Model.Mesh;
+using Graphics2026.Model.SceneManagement;
 using Graphics2026.View.Shading.Shaders;
 using Graphics2026.View.Textures;
 using OpenTK.Graphics.OpenGL;
@@ -28,7 +29,7 @@ namespace Graphics2026.Shopping
             );
             groundShader.textureScale = 1f;
 
-            Actor ground = new Actor();
+            Actor ground = new Actor().AddToScene();
             ground.mesh = MeshGenerator.Quad();
             ground.shader = groundShader;
             ground.transform.localSize *= 10;
@@ -36,9 +37,10 @@ namespace Graphics2026.Shopping
 
             Grid grid = new Grid(new Vector2i(10, 10));
             grid.SetType(SurfaceType.Floor);
+            SceneManager.AddToScene(grid);
             Program.GetWindow().GetRenderer()!.drawSurfaces[SurfaceType.Floor] = true;
 
-            Actor customer = new Actor();
+            Actor customer = new Actor().AddToScene();
             customer.mesh = MeshGenerator.Cylinder(32);
             customer.shader = new DefaultLit();
             customer.mesh.BakeTransformation(Matrix4.CreateScale(new Vector3(0.5f, 1, 0.5f)) 

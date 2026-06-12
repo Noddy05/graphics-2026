@@ -10,9 +10,9 @@ uniform sampler2D textureSampler;
 out vec4 oColor;
 
 void main(){
-    float lightLevel = max(0, dot(vNormal, vec3(0, 1, 0)));
+    float lightLevel = max(0, dot(vNormal, normalize(vec3(-1, 2, 1.2))));
     
-    vec4 color = texture(textureSampler, vTextureCoordinate);
+    vec3 color = texture(textureSampler, vTextureCoordinate).xyz;
 
-    oColor = color * lightLevel;
+    oColor = vec4(color * lightLevel, 1);
 }

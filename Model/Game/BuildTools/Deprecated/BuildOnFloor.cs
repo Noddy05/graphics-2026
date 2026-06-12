@@ -67,7 +67,7 @@ namespace Graphics2026.Model.Game.BuildTools.Deprecated
         private void FindFloor()
         {
             float rayDistance = float.MaxValue;
-            foreach (Surface grid in SceneManager.CurrentScene().surfaces)
+            foreach (Surface grid in SceneManager.GetSurfaces())
             {
                 if (grid.GetType() != typeof(Floor))
                     continue;

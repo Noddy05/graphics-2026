@@ -102,7 +102,7 @@ namespace Graphics2026.Model.Game.BuildTools.Walls
             wallSurface.transform.localPosition.Y = 1;
             wallSurface.transform.localRotation.X = 90f;
             wallSurface.SetType(SurfaceType.Wall);
-            SceneManager.CurrentScene().surfaces.Add(wallSurface);
+            SceneManager.AddToScene(wallSurface);
 
             wall.SetWallToCutout(cubePart);
             wall.transform.localPosition = (A + B) / 2f;

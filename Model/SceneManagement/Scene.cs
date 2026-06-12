@@ -1,46 +1,69 @@
 ﻿using Graphics2026.Model.Actors;
 using Graphics2026.Model.Actors.Gizmos;
+using Graphics2026.View.Shading.Shaders;
 
 namespace Graphics2026.Model.SceneManagement
 {
-    internal class Scene
+    internal class Scene : IRenderable
     {
-        public readonly List<Surface> surfaces = new();
-        //public readonly List<Actor> actors = new();
-        public readonly List<IRenderable> renderables = new();
+        protected readonly Transform transform;
+        private readonly static List<Surface> surfaces = new();
+        protected string name;
 
-        /// <summary>
-        /// Finds the first actor with the given name
-        /// <br></br>
-        /// Returns null if no actor was found
-        /// </summary>
-        public Actor? FindActor(string name)
+        public Scene() : this("New Scene") { }
+        public Scene(string name)
         {
-            foreach (IRenderable renderable in renderables)
-            {
-                if (renderable.GetType() != typeof(Actor))
-                    continue;
-
-                if (renderable.GetName() == name)
-                    return (Actor)renderable;
-            }
-
-            return null;
+            transform = new Transform(this);
+            this.name = name;
         }
-        /// <summary>
-        /// Finds the first surface with the given name
-        /// <br></br>
-        /// Returns null if no surface was found
-        /// </summary>
-        public Surface? FindSurface(string name)
-        {
-            foreach (Surface surface in surfaces)
-            {
-                if (surface.name == name)
-                    return surface;
-            }
+        public string GetName() => name;
+        public Transform GetTransform() => transform;
 
-            return null;
+        public void AddToScene(IRenderable renderable)
+        {
+            renderable.SetParent(transform);
+        }
+        public void AddToScene(Surface surface)
+        {
+            surfaces.Add(surface);
+        }
+        public List<Transform> GetChildren() => transform.GetChildren();
+        public List<Surface> GetSurfaces() => surfaces;
+
+
+        public IRenderable Clone()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool GetRenderStatus()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Render()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RenderFamilyWithShader(PhysicalShader shader)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RenderWithShader(PhysicalShader shader)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetParent(Transform? parent)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetRenderStatus(bool shouldRender)
+        {
+            throw new NotImplementedException();
         }
     }
 }

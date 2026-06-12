@@ -15,11 +15,11 @@ namespace Graphics2026.Model.Actors.Gizmos
         protected Vector2 size;
         protected List<SurfaceType> surfaceType = new();
 
-        public Surface() : base() { 
-            SceneManager.CurrentScene().surfaces.Add(this);
+        public Surface() : base() {
+            ConstructorDefault();
         }
         public Surface(string name) : base(name) { 
-            SceneManager.CurrentScene().surfaces.Add(this);
+            ConstructorDefault();
         }
         public Surface(Vector2 size) : this()
         {
@@ -28,6 +28,11 @@ namespace Graphics2026.Model.Actors.Gizmos
         public Surface(string name, Vector2 size) : this(size) 
         {
             this.name = name;
+        }
+
+        private void ConstructorDefault()
+        {
+            SceneManager.AddToScene(this);
         }
 
         public void SetType(SurfaceType surfaceType)

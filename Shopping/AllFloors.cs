@@ -1,5 +1,10 @@
 ﻿
 using Graphics2026.Model.Actors;
+using Graphics2026.Model.Mesh;
+using Graphics2026.View.Shading.Shaders;
+using Graphics2026.View.Textures;
+using OpenTK.Graphics.OpenGL;
+using OpenTK.Mathematics;
 
 namespace Graphics2026.Shopping
 {
@@ -9,7 +14,27 @@ namespace Graphics2026.Shopping
 
         static AllFloors()
         {
-            floors.Add(new Prefab("Tile", new Actor(), 15));
+            Actor actor = new Actor("Tile actor");
+            actor.mesh = MeshGenerator.Cube();
+            actor.mesh.BakeTransformation(Matrix4.CreateTranslation(Vector3.UnitY)
+                * Matrix4.CreateScale(0.5f, 0.02f, 0.5f));
+            actor.shader = new TexturedProcedural(new Texture(Program.ASSETS + "tile_texture.jpg", TextureTarget.Texture2D)
+                .AddParameter(new TexParameter(TextureParameterName.TextureMinFilter, (int)TextureMinFilter.LinearMipmapLinear))
+                .AddParameter(new TexParameter(TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear))
+                .AddParameter(new TexParameter(TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat))
+                .AddParameter(new TexParameter(TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat)),
+                10f
+            );
+
+            Actor child = new Actor();
+            child.mesh = MeshGenerator.Cube();
+            child.transform.localSize *= 0.1f;
+            child.shader = new DefaultLit();
+            child.SetParent(actor);
+
+
+            Prefab tilePrefab = new Prefab("Tile", actor, 15);
+            floors.Add(tilePrefab);
         }
 
         public static Prefab GetFloor(int index) => floors[index - 1];

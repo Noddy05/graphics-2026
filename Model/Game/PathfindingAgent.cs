@@ -38,7 +38,7 @@ namespace Graphics2026.Model.Game
             actor.mesh = mesh;
 
             actor.shader = shader;
-            SceneManager.CurrentScene().renderables.Add(actor);
+            SceneManager.AddToScene(actor);
             this.grid = grid;
         }
 

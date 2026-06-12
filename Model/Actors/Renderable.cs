@@ -25,9 +25,14 @@ namespace Graphics2026.Model.Actors
         {
             this.primitiveType = primitiveType;
             transform = new Transform(this);
-            SceneManager.CurrentScene().renderables.Add(this);
             actorNo = actorCounter++;
             this.name = name;
+        }
+
+        public virtual Renderable<T> AddToScene()
+        {
+            SceneManager.AddToScene(this);
+            return this;
         }
 
         public string GetName() => name;

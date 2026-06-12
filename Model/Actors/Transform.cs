@@ -30,6 +30,9 @@ namespace Graphics2026.Model.Actors
             matrixMod = transform.matrixMod;
         }
 
+        public void SetMatrixMod(Matrix4 mod) => matrixMod = mod;
+        public Matrix4 GetMatrixMod() => matrixMod;
+
         public void SetParent(Transform? parent)
         {
             if (parent != null && IsDescendentOfTransform(parent))

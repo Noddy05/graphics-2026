@@ -15,11 +15,16 @@ namespace Graphics2026.View.Shading.Shaders
             base(new Shader(ShaderType.VertexShader,
                 Program.LOCAL + "View/Shading/Shaders/TexturedProcedural/vert.glsl"),
                 new Shader(ShaderType.FragmentShader,
-                Program.LOCAL + "View/Shading/Shaders/TexturedProcedural/frag.glsl")) {
+                Program.LOCAL + "View/Shading/Shaders/TexturedProcedural/frag.glsl"))
+        {
 
             this.texture = texture;
             ulTextureSampler = GetUniformLocation("textureSampler");
             ulTextureScale = GetUniformLocation("textureScale");
+        }
+        public TexturedProcedural(Texture? texture, float textureScale) : this(texture)
+        {
+            this.textureScale = textureScale;
         }
 
         public override void UseProgram()
@@ -33,7 +38,7 @@ namespace Graphics2026.View.Shading.Shaders
             if (texture == null)
             {
                 TextureLoader.white.Bind();
-            } 
+            }
             else
             {
                 texture.Bind();

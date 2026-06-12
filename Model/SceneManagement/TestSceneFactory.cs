@@ -45,7 +45,7 @@ namespace Graphics2026.Model.SceneManagement
 
             Floor floor = new Floor();
             floor.SetSize(new Vector2i(20, 30));
-            SceneManager.CurrentScene().surfaces.Add(floor);
+            SceneManager.AddToScene(floor);
 
             /*
             Floor floorGrid = new Floor();
@@ -72,7 +72,7 @@ namespace Graphics2026.Model.SceneManagement
 
             NavigationGrid navGrid = new NavigationGrid();
             navGrid.SetSize(new Vector2i(20, 30));
-            SceneManager.CurrentScene().renderables.Add(navGrid);
+            SceneManager.AddToScene(navGrid);
 
             /*
             Random rand = new Random();

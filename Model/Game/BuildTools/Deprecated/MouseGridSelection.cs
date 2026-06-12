@@ -161,7 +161,7 @@ namespace Graphics2026.Model.Game.BuildTools.Deprecated
             point = Vector3.Zero;
             rayLength = float.PositiveInfinity;
 
-            foreach (Surface grid in SceneManager.CurrentScene().surfaces)
+            foreach (Surface grid in SceneManager.GetSurfaces())
             {
                 if (grid.GetType() != typeof(Floor))
                     continue;

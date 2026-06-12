@@ -3,6 +3,7 @@
     internal class Program
     {
         public const string LOCAL = "../../../";
+        public const string ASSETS = LOCAL + "Assets/";
 
         private static Window window = new Window();
 

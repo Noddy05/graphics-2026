@@ -31,7 +31,7 @@ namespace Graphics2026.Model.Game.BuildTools
                     if (tile == null)
                         continue;
 
-                    SceneManager.CurrentScene().renderables.Remove(tile);
+                    SetParent(null);
                 }
             }
 
@@ -57,7 +57,7 @@ namespace Graphics2026.Model.Game.BuildTools
                 return false;
 
             Tile placedTile = new Tile();
-            SceneManager.CurrentScene().renderables.Add(placedTile);
+            SceneManager.CurrentScene().AddToScene(placedTile);
             placedTile.transform.localRotation = transform.localRotation;
             placedTile.transform.localPosition = MouseGridSelection.GridSpaceToWorldSpace(square, this);
             //placedTile.transform.position = new Vector3(square.X, 0, square.Y);

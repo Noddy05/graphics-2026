@@ -22,7 +22,7 @@ namespace Graphics2026.Model.Game.BuildTools
             point = Vector3.Zero;
             rayLength = float.PositiveInfinity;
 
-            foreach (Surface surface in SceneManager.CurrentScene().surfaces)
+            foreach (Surface surface in SceneManager.GetSurfaces())
             {
                 if(collideWithSurfaces.Length > 0)
                 {
