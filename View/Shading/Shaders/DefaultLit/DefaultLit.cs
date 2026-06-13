@@ -7,6 +7,7 @@ namespace Graphics2026.View.Shading.Shaders
     {
         public Color4 color;
         private int ulColor;
+        private int ubCamera;
 
         public DefaultLit() : this(new Color4(1f, 1f, 1f, 1f)) { }
         public DefaultLit(Color4 color):

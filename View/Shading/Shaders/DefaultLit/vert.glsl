@@ -1,5 +1,5 @@
 ﻿
-#version 330 core
+#version 420 core
 
 layout (location = 0) in vec3 iPosition;
 layout (location = 1) in vec3 iNormal;
@@ -12,6 +12,12 @@ uniform mat4 cameraMatrix = mat4(1);
 out vec3 vNormal;
 out vec2 vTextureCoordinate;
 
+layout (std140, binding = 1) uniform Camera
+{
+    mat4 view;
+    mat4 projection;
+} camera;  
+
 void main(){
     vec3 worldPosition = (transformationMatrix * vec4(iPosition, 1)).xyz;
 
@@ -20,5 +26,5 @@ void main(){
 
     vTextureCoordinate = iTextureCoordinate;
     
-    gl_Position = projectionMatrix * cameraMatrix * vec4(worldPosition, 1);
+    gl_Position = camera.projection * camera.view * vec4(worldPosition, 1);
 }

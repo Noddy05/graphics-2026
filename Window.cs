@@ -15,12 +15,15 @@ using Graphics2026.Model.Mesh;
 using Graphics2026.View.Shading;
 using Graphics2026.Model.Game.BuildTools.Interior;
 using Graphics2026.Shopping;
+using Graphics2026.Model.BufferObjects.UniformBufferObject;
+using Graphics2026.Model.Attachments.CameraControls;
 
 namespace Graphics2026
 {
     internal class Window : GameWindow
     {
         private Renderer? renderer;
+        private UBO<CameraBlock> cameraUBO;
 
         private double timeSinceStart;
 
@@ -54,6 +57,7 @@ namespace Graphics2026
             new Materials();
             Player.SetBalance(10_000);
             new CreateStore();
+            cameraUBO = new UBO<CameraBlock>(1, BufferUsageHint.StreamCopy);
             //builder.AddTool(new WallBuilder())
             //builder.AddTool(new WallMod());
 
@@ -90,6 +94,10 @@ namespace Graphics2026
                     Console.WriteLine("(" + val.Key + ") " + val.Value + "ns");
                 }
             }
+
+            cameraUBO.GetBlock().view = Camera.current!.GetCameraMatrix();
+            cameraUBO.GetBlock().projection = Camera.current!.GetProjection();
+            cameraUBO.BindData();
 
             if (!Profiler.record)
             {

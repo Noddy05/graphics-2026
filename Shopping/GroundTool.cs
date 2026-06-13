@@ -3,6 +3,7 @@ using Graphics2026.Model.Actors.Gizmos;
 using Graphics2026.Model.Game.BuildTools;
 using Graphics2026.Model.SceneManagement;
 using Graphics2026.View;
+using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 

@@ -7,6 +7,7 @@ namespace Graphics2026.View.Shading
         private int handle;
         private string shaderSourceLocation;
 
+
         public Shader(ShaderType shaderType, string shaderSourceLocation)
         {
             handle = GL.CreateShader(shaderType);

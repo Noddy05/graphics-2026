@@ -43,6 +43,7 @@ namespace Graphics2026.Shopping
             Actor customer = new Actor().AddToScene();
             customer.mesh = MeshGenerator.Cylinder(32);
             customer.shader = new DefaultLit();
+            customer.transform.localPosition = new Vector3(0, 3, -10);
             customer.mesh.BakeTransformation(Matrix4.CreateScale(new Vector3(0.5f, 1, 0.5f)) 
                 * Matrix4.CreateTranslation(new Vector3(0, 1, 0)));
         }

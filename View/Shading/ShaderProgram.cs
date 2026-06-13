@@ -23,6 +23,7 @@ namespace Graphics2026.View.Shading
         }
 
         public int GetUniformLocation(string name) => GL.GetUniformLocation(handle, name);
+        public int GetUniformBlockIndex(string name) => GL.GetUniformBlockIndex(handle, name);
 
         public virtual void UseProgram()
         {

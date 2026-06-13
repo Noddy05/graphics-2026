@@ -26,12 +26,6 @@ namespace Graphics2026.Shopping
                 10f
             );
 
-            Actor child = new Actor();
-            child.mesh = MeshGenerator.Cube();
-            child.transform.localSize *= 0.1f;
-            child.shader = new DefaultLit();
-            child.SetParent(actor);
-
 
             Prefab tilePrefab = new Prefab("Tile", actor, 15);
             floors.Add(tilePrefab);

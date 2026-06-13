@@ -53,7 +53,7 @@ namespace Graphics2026.Model.VertexData
         public void BakeTransformation(Matrix4 transform)
         {
             Vector3 val = (new Vector4(position, 1) * transform).Xyz;
-            normal = ((new Vector4(normal, 1) * transform - new Vector4(0, 0, 0, 1) * transform).Xyz).Normalized();
+            normal = (new Vector4(normal, 1) * transform - new Vector4(0, 0, 0, 1) * transform).Xyz.Normalized();
             position = val;
         }
 
