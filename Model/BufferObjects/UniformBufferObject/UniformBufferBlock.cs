@@ -12,7 +12,7 @@ namespace Graphics2026.Model.BufferObjects.UniformBufferObject
 
         public int GetHandle() => handle;
 
-        public abstract int BlockSize();
+        public virtual int BlockSize() => GetData().Length * sizeof(float);
         public abstract float[] GetData();
     }
 }

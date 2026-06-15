@@ -10,6 +10,6 @@ namespace Graphics2026.Model.BufferObjects.UniformBufferObject
 
         public override int BlockSize() => 32 * sizeof(float);
 
-        public override float[] GetData() => Helper.Matrix4ToFloatArray([view, projection]);
+        public override float[] GetData() => DataConverter.ToFloatArray(view, projection);
     }
 }
