@@ -6,8 +6,6 @@ layout (location = 1) in vec3 iNormal;
 layout (location = 2) in vec2 iTextureCoordinate;
 
 uniform mat4 transformationMatrix = mat4(1);
-uniform mat4 projectionMatrix = mat4(1);
-uniform mat4 cameraMatrix = mat4(1);
 
 out vec3 vNormal;
 out vec2 vTextureCoordinate;

@@ -3,13 +3,28 @@ using OpenTK.Mathematics;
 
 namespace Graphics2026.Model.BufferObjects.UniformBufferObject
 {
-    internal class CameraBlock : UniformBufferBlock
+    internal class CameraBlock : UBO 
     {
-        public Matrix4 view = Matrix4.Identity;
-        public Matrix4 projection = Matrix4.Identity;
+        private Matrix4 view = Matrix4.Identity;
+        private Matrix4 projection = Matrix4.Identity;
 
-        public override int BlockSize() => 32 * sizeof(float);
+        public CameraBlock(int bindingPoint) : base(bindingPoint) { }
+        public CameraBlock(int bindingPoint, BufferUsageHint hint) : base(bindingPoint, hint) { }
 
-        public override float[] GetData() => Helper.Matrix4ToFloatArray([view, projection]);
+        public void UpdateView(Matrix4 view)
+        {
+            this.view = view;
+            BindSubData(Helper.Matrix4ToFloatArray(view), 0, 16);
+        }
+        public void UpdateProjection(Matrix4 projection)
+        {
+            this.projection = projection;
+            BindSubData(Helper.Matrix4ToFloatArray(projection), 16, 16);
+        }
+
+        protected override float[] GetData()
+            => Helper.Matrix4ToFloatArray([view, projection]);
+
+        protected override int NumFloats() => 2 * 16;
     }
 }

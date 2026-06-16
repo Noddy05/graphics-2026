@@ -23,7 +23,7 @@ namespace Graphics2026
     internal class Window : GameWindow
     {
         private Renderer? renderer;
-        private UBO<CameraBlock> cameraUBO;
+        private CameraBlock cameraUBO;
 
         private double timeSinceStart;
 
@@ -34,6 +34,7 @@ namespace Graphics2026
             Title = "yes"
         })
         {
+            cameraUBO = new CameraBlock(1, BufferUsageHint.StreamCopy);
             CenterWindow();
         }
 
@@ -57,14 +58,14 @@ namespace Graphics2026
             new Materials();
             Player.SetBalance(10_000);
             new CreateStore();
-            cameraUBO = new UBO<CameraBlock>(1, BufferUsageHint.StreamCopy);
             //builder.AddTool(new WallBuilder())
             //builder.AddTool(new WallMod());
 
             //new GridController();
             //TestSceneFactory.InitializeScene();
             //BuildOnFloor gridTiler = new BuildOnFloor();
-
+            cameraUBO.UpdateProjection(Camera.current!.GetProjection());
+            cameraUBO.BindData();
             IsVisible = true;
         }
 
@@ -95,9 +96,10 @@ namespace Graphics2026
                 }
             }
 
-            cameraUBO.GetBlock().view = Camera.current!.GetCameraMatrix();
-            cameraUBO.GetBlock().projection = Camera.current!.GetProjection();
-            cameraUBO.BindData();
+            cameraUBO.UpdateView(Camera.current!.GetCameraMatrix());
+            cameraUBO.UpdateProjection(Camera.current!.GetProjection());
+            PrintGLErrors();
+            //cameraUBO.BindData();
 
             if (!Profiler.record)
             {
@@ -110,6 +112,20 @@ namespace Graphics2026
             stopwatch.Stop();
 
             Profiler.AddTime("Window - Render Frame", stopwatch.Elapsed.Ticks);
+        }
+
+        public static void PrintGLErrors()
+        {
+            OpenTK.Graphics.OpenGL.ErrorCode err = GL.GetError();
+            while (err != OpenTK.Graphics.OpenGL.ErrorCode.NoError)
+            {
+                Console.WriteLine(err);
+                err = GL.GetError();
+            }
+        }
+        public static void ClearGLErrors()
+        {
+            while (OpenTK.Graphics.OpenGL.ErrorCode.NoError != GL.GetError());
         }
 
         private void DrawFrame(FrameEventArgs args)

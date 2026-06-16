@@ -16,7 +16,6 @@ namespace Graphics2026.Model.Actors
             ShaderProgram.DEFAULT.UseProgram();
 
             ShaderProgram.DEFAULT.ApplyTransform(transform.WorldTransform());
-            ShaderProgram.DEFAULT.ApplyCameraAndProjection(Camera.current);
 
             base.Render();
         }

@@ -67,7 +67,6 @@ namespace Graphics2026.Model.Actors
 
             shader.UseProgram();
             shader.ApplyTransform(transform.WorldTransform());
-            shader.ApplyCameraAndProjection(Camera.current);
 
             mesh.PrepareForRendering();
             GL.DrawElements(primitiveType, mesh.NumIndices(), DrawElementsType.UnsignedInt, 0);

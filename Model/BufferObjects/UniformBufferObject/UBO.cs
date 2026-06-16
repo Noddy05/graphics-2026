@@ -1,50 +1,51 @@
 ﻿using OpenTK.Graphics.OpenGL;
-using OpenTK.Mathematics;
 
 namespace Graphics2026.Model.BufferObjects.UniformBufferObject
 {
-    internal class UBO<T> : IBufferObject where T : UniformBufferBlock, new()
+    internal abstract class UBO
     {
-        protected BufferUsageHint hint = BufferUsageHint.StaticCopy;
-        protected int bindingPoint;
-        protected T block;
+        protected BufferUsageHint hint;
+        protected readonly int bindingPoint;
         protected const BufferTarget UB = BufferTarget.UniformBuffer;
+        protected int handle;
 
-        public UBO(int bindingPoint)
+        public UBO(int bindingPoint) : this(bindingPoint, BufferUsageHint.StaticCopy) { }
+        public UBO(int bindingPoint, BufferUsageHint hint)
         {
-            block = new T();
+            handle = GL.GenBuffer();
+            this.hint = hint;
             this.bindingPoint = bindingPoint;
             SetBindingPoint();
         }
-        public UBO(int bindingPoint, BufferUsageHint hint) : this(bindingPoint)
-        {
-            this.hint = hint;
-        }
 
-        public T GetBlock() => block;
+        protected abstract int NumFloats();
+        public int SizeOfData() => NumFloats() * sizeof(float);
+        protected abstract float[] GetData();
 
-        public void SetBindingPoint()
+        private void SetBindingPoint()
         {
             Bind();
-            GL.BufferData(UB, block.BlockSize(), 0, hint);
-            GL.BindBufferRange(BufferRangeTarget.UniformBuffer, bindingPoint, block.GetHandle(), 0, block.BlockSize());
-            ErrorCode err = GL.GetError();
-            if (err != ErrorCode.NoError)
-                Console.WriteLine(err);
+            GL.BufferData(UB, SizeOfData(), IntPtr.Zero, hint);
+            GL.BindBufferRange(BufferRangeTarget.UniformBuffer, bindingPoint, handle, 0, SizeOfData());
             Unbind();
         }
 
         public void BindData()
         {
             Bind();
-            float[] data = block.GetData();
-            GL.BufferSubData(UB, 0, block.BlockSize(), data);
+            GL.BufferSubData(UB, 0, SizeOfData(), GetData());
+            Unbind();
+        }
+        public void BindSubData(float[] data, int offset, int size)
+        {
+            Bind();
+            GL.BufferSubData(UB, offset * sizeof(float), size * sizeof(float), data);
             Unbind();
         }
 
         public void Bind()
         {
-            GL.BindBuffer(UB, block.GetHandle());
+            GL.BindBuffer(UB, handle);
         }
 
         public void Unbind()
@@ -52,9 +53,8 @@ namespace Graphics2026.Model.BufferObjects.UniformBufferObject
             GL.BindBuffer(UB, 0);
         }
 
-        public int GetHandle() => block.GetHandle();
+        public int GetHandle() => handle;
 
-        public int SizeOfData() => block.BlockSize();
 
         public void Dispose()
         {

@@ -32,7 +32,8 @@ namespace Graphics2026.Model.BufferObjects
         {
             BufferTarget target = GetBufferTarget();
             GL.BindBuffer(target, handle);
-            GL.BufferData(target, data.Length * sizeOfData, data, hint);
+            GL.BufferData(target, data.Length * sizeOfData, data, hint); 
+            //<- replace with BufferSubData when we dont change the size of our array
             GL.BindBuffer(target, 0);
 
             if (!discardData)

@@ -32,7 +32,7 @@ namespace Graphics2026.Shopping
                 return;
 
             Vector3 position = grid.SnapToGrid(point);
-            Vector2i gridPosition = (Vector2i)grid.PointToGridSpace(position) + grid.GridSize() / 2;
+            Vector2i gridPosition = (Vector2i)Vector2.Floor(grid.PointToGridSpace(position) + grid.GridSize() / 2);
 
             WireRenderer.DrawLine(Vector3.Zero, point);
             currentPrefab.renderable!.GetTransform().localPosition = position;

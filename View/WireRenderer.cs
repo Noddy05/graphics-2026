@@ -115,8 +115,6 @@ namespace Graphics2026.View
         private static void ApplyShader(PhysicalShader shader, Matrix4 transformationMatrix)
         {
             shader.UseProgram();
-            shader.ApplyCameraAndProjection(Camera.current);
-
             shader.ApplyTransform(transformationMatrix);
         }
     }

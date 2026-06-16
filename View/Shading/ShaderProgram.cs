@@ -43,7 +43,6 @@ namespace Graphics2026.View.Shading
             foreach (Shader shader in shaders)
             {
                 GL.DetachShader(handle, shader);
-                GL.DeleteShader(shader);
                 shader.Dispose();
             }
         }
