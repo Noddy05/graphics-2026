@@ -16,6 +16,7 @@ namespace Graphics2026.Model.BufferObjects.UniformBufferObject
             this.hint = hint;
             this.bindingPoint = bindingPoint;
             SetBindingPoint();
+            BindData();
         }
 
         protected abstract int NumFloats();
@@ -36,10 +37,10 @@ namespace Graphics2026.Model.BufferObjects.UniformBufferObject
             GL.BufferSubData(UB, 0, SizeOfData(), GetData());
             Unbind();
         }
-        public void BindSubData(float[] data, int offset, int size)
+        public void BindSubData(float[] data, int offset)
         {
             Bind();
-            GL.BufferSubData(UB, offset * sizeof(float), size * sizeof(float), data);
+            GL.BufferSubData(UB, offset * sizeof(float), data.Length * sizeof(float), data);
             Unbind();
         }
 

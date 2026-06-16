@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Bruger\\source\\repos\\Noddy05\\graphics-2026\\Graphics2026.csproj": {}
+    "C:\\Users\\noah0\\Programmering\\C#\\Graphics2026\\Graphics2026\\Graphics2026.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Bruger\\source\\repos\\Noddy05\\graphics-2026\\Graphics2026.csproj": {
+    "C:\\Users\\noah0\\Programmering\\C#\\Graphics2026\\Graphics2026\\Graphics2026.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Bruger\\source\\repos\\Noddy05\\graphics-2026\\Graphics2026.csproj",
+        "projectUniqueName": "C:\\Users\\noah0\\Programmering\\C#\\Graphics2026\\Graphics2026\\Graphics2026.csproj",
         "projectName": "Graphics2026",
-        "projectPath": "C:\\Users\\Bruger\\source\\repos\\Noddy05\\graphics-2026\\Graphics2026.csproj",
-        "packagesPath": "C:\\Users\\Bruger\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Bruger\\source\\repos\\Noddy05\\graphics-2026\\obj\\",
+        "projectPath": "C:\\Users\\noah0\\Programmering\\C#\\Graphics2026\\Graphics2026\\Graphics2026.csproj",
+        "packagesPath": "C:\\Users\\noah0\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\noah0\\Programmering\\C#\\Graphics2026\\Graphics2026\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Bruger\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\noah0\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -26,7 +26,6 @@
         },
         "frameworks": {
           "net8.0": {
-            "framework": "net8.0",
             "targetAlias": "net8.0",
             "projectReferences": {}
           }
@@ -35,17 +34,10 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
-        },
-        "SdkAnalysisLevel": "10.0.300"
+        }
       },
       "frameworks": {
         "net8.0": {
-          "framework": "net8.0",
           "targetAlias": "net8.0",
           "dependencies": {
             "OpenTK": {
@@ -73,7 +65,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.301/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

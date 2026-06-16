@@ -1,5 +1,5 @@
 ﻿
-#version 330 core
+#version 420 core
            
 
 in vec3 vNormal;
@@ -8,9 +8,30 @@ uniform vec4 color;
 
 out vec4 oColor;
 
+layout (std140, binding = 2) uniform Lighting
+{
+    vec3 fromDirection; float padding;
+
+    vec3 sunColor;
+    float sunStrength;
+
+    vec3 shadowColor;
+    float ambientStrength;
+} light;
+
+vec3 getLightColor(){
+    float actualLightLevel = max(0, dot(vNormal, normalize(light.fromDirection)));
+    float lightLevel = max(light.ambientStrength, actualLightLevel);
+
+    vec3 sunColor = light.sunColor * light.sunStrength * actualLightLevel;
+    float shadowStrength = exp(-0.3 / light.ambientStrength 
+        * max(0, actualLightLevel - light.ambientStrength)) * light.ambientStrength;
+
+    vec3 lightColor = sunColor + light.shadowColor * shadowStrength;
+
+    return lightColor;
+}
+
 void main(){
-    vec3 toSun = normalize(vec3(-1, 2, 1.2));
-    float lightLevel = max(0.1, dot(vNormal, toSun));
-    
-    oColor = vec4(color.rgb * lightLevel, color.a);
+    oColor = vec4(color.rgb * getLightColor(), color.a);
 }

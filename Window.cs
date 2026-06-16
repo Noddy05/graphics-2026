@@ -24,6 +24,7 @@ namespace Graphics2026
     {
         private Renderer? renderer;
         private CameraBlock cameraUBO;
+        private LightBlock lightUBO;
 
         private double timeSinceStart;
 
@@ -35,6 +36,7 @@ namespace Graphics2026
         })
         {
             cameraUBO = new CameraBlock(1, BufferUsageHint.StreamCopy);
+            lightUBO = new LightBlock(2, BufferUsageHint.DynamicCopy);
             CenterWindow();
         }
 
@@ -64,8 +66,8 @@ namespace Graphics2026
             //new GridController();
             //TestSceneFactory.InitializeScene();
             //BuildOnFloor gridTiler = new BuildOnFloor();
-            cameraUBO.UpdateProjection(Camera.current!.GetProjection());
-            cameraUBO.BindData();
+            cameraUBO.projection = Camera.current!.GetProjection();
+            //lightUBO.BindData();
             IsVisible = true;
         }
 
@@ -73,6 +75,7 @@ namespace Graphics2026
         {
             base.OnResize(e);
             GL.Viewport(0, 0, e.Width, e.Height);
+            cameraUBO.projection = Camera.current!.GetProjection();
         }
 
         public float GetAspectRatio() => ClientSize.X / (float)ClientSize.Y;
@@ -96,10 +99,8 @@ namespace Graphics2026
                 }
             }
 
-            cameraUBO.UpdateView(Camera.current!.GetCameraMatrix());
-            cameraUBO.UpdateProjection(Camera.current!.GetProjection());
-            PrintGLErrors();
-            //cameraUBO.BindData();
+            cameraUBO.view = Camera.current!.GetCameraMatrix();
+            lightUBO.lightFromDirection = new Vector3(MathF.Cos((float)timeSinceStart), 1, MathF.Sin((float)timeSinceStart));
 
             if (!Profiler.record)
             {
