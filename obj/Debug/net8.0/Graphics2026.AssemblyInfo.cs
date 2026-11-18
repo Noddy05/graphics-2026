@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Graphics2026")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3304189750ad643aa1c2568af25bd5340e23fc34")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6304390da930aea6325e8426f0d0d167a80c4821")]
 [assembly: System.Reflection.AssemblyProductAttribute("Graphics2026")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Graphics2026")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -15,12 +15,6 @@ namespace Graphics2026.Model.Actors
         public Actor() : base(PrimitiveType.Triangles) { }
         public Actor(string name) : base(name, PrimitiveType.Triangles) { }
 
-        public override Actor AddToScene()
-        {
-            SceneManager.AddToScene(this);
-            return this;
-        }
-
         public override Actor Clone()
         {
             Actor clone = new Actor(name);

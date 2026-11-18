@@ -29,11 +29,6 @@ namespace Graphics2026.Model.Actors
             this.name = name;
         }
 
-        public virtual Renderable<T> AddToScene()
-        {
-            SceneManager.AddToScene(this);
-            return this;
-        }
 
         public string GetName() => name;
         public Transform GetTransform() => transform;
@@ -84,5 +79,15 @@ namespace Graphics2026.Model.Actors
         }
 
         public static implicit operator Transform(Renderable<T> renderable) => renderable.GetTransform();
+    }
+
+    internal static class RenderableExtensions
+    {
+        public static T AddToScene<T>(this T renderable)
+            where T : IRenderable
+        {
+            SceneManager.AddToScene(renderable);
+            return renderable;
+        }
     }
 }

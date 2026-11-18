@@ -1,4 +1,5 @@
 ﻿using Graphics2026.Model.Attachments.CameraControls;
+using Graphics2026.Model.SceneManagement;
 using Graphics2026.Model.VertexData;
 using Graphics2026.View.Shading;
 using OpenTK.Graphics.OpenGL;

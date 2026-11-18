@@ -7,14 +7,10 @@ using OpenTK.Windowing.Desktop;
 using Graphics2026.Model.SceneManagement;
 using Graphics2026.Controller;
 using System.Diagnostics;
-using Graphics2026.Model.Game.BuildTools.Walls;
-using Graphics2026.Model.Game.BuildTools;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using Graphics2026.Model.Actors;
 using Graphics2026.Model.Mesh;
 using Graphics2026.View.Shading;
-using Graphics2026.Model.Game.BuildTools.Interior;
-using Graphics2026.Shopping;
 using Graphics2026.Model.BufferObjects.UniformBufferObject;
 using Graphics2026.Model.Attachments.CameraControls;
 
@@ -58,16 +54,10 @@ namespace Graphics2026
             GL.ClearColor(Color4.DarkGray);
 
             new Materials();
-            Player.SetBalance(10_000);
-            new CreateStore();
-            //builder.AddTool(new WallBuilder())
-            //builder.AddTool(new WallMod());
 
-            //new GridController();
-            //TestSceneFactory.InitializeScene();
-            //BuildOnFloor gridTiler = new BuildOnFloor();
+            TestSceneFactory.InitializeScene();
             cameraUBO.projection = Camera.current!.GetProjection();
-            //lightUBO.BindData();
+            lightUBO.BindData();
             IsVisible = true;
         }
 
@@ -139,8 +129,8 @@ namespace Graphics2026
 
             renderer.RenderScene();
 
-            SurfaceSelect.RaycastSelectSurface(out Vector3 point, out _);
-            WireRenderer.DrawCircle(point, NavigationObstacle.SDF(point.Xz));
+            //SurfaceSelect.RaycastSelectSurface(out Vector3 point, out _);
+            //WireRenderer.DrawCircle(point, NavigationObstacle.SDF(point.Xz));
 
             Context.SwapBuffers();
 
