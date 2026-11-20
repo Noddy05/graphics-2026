@@ -12,8 +12,6 @@ namespace Graphics2026.Model.SceneManagement
     {
         public static void InitializeScene()
         {
-            //SceneManager.CurrentScene().actors.Add(actor);
-
             Actor cameraActor = new Actor();
             cameraActor.AddAttachment<MovementControls>();
             Camera camera = cameraActor.AddAttachment<PerspectiveCamera>(85f, 0.1f, 1000f);
@@ -21,7 +19,6 @@ namespace Graphics2026.Model.SceneManagement
 
             Actor cylinder = new Actor().AddToScene();
             Mesh<Vertex> cylinderMesh = MeshGenerator.Cylinder(64);
-            //cylinderMesh = Mesh<Vertex>.Combine(cylinderMesh, MeshGenerator.RegularFilledPolygon(15));
 
             cylinder.mesh = cylinderMesh;
             cylinder.transform.localPosition = new Vector3(5, 1, 5);

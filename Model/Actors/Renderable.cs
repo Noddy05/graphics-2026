@@ -52,8 +52,8 @@ namespace Graphics2026.Model.Actors
         }
 
         public void SetRenderStatus(bool shouldRender) => this.shouldRender = shouldRender;
-        public bool GetRenderStatus() => shouldRender;
-        public void SetParent(Transform? parent) => GetTransform().SetParent(parent);
+        public bool ShouldRender() => shouldRender;
+        public void SetParent(IParent? parent) => GetTransform().SetParent(parent);
 
         public virtual void RenderWithShader(PhysicalShader shader)
         {
@@ -83,8 +83,7 @@ namespace Graphics2026.Model.Actors
 
     internal static class RenderableExtensions
     {
-        public static T AddToScene<T>(this T renderable)
-            where T : IRenderable
+        public static T AddToScene<T>(this T renderable) where T : IRenderable
         {
             SceneManager.AddToScene(renderable);
             return renderable;

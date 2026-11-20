@@ -129,9 +129,6 @@ namespace Graphics2026
 
             renderer.RenderScene();
 
-            //SurfaceSelect.RaycastSelectSurface(out Vector3 point, out _);
-            //WireRenderer.DrawCircle(point, NavigationObstacle.SDF(point.Xz));
-
             Context.SwapBuffers();
 
             GL.StencilMask(0xFF);

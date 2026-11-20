@@ -10,10 +10,10 @@ namespace Graphics2026.Model.Actors
         public void RenderWithShader(PhysicalShader shader);
         public void RenderFamilyWithShader(PhysicalShader shader);
         public void SetRenderStatus(bool shouldRender);
-        public bool GetRenderStatus();
+        public bool ShouldRender();
         public string GetName();
         public Transform GetTransform();
-        public void SetParent(Transform? parent);
+        public void SetParent(IParent? parent);
         public abstract IRenderable Clone();
     }
 }

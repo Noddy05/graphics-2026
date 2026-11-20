@@ -3,13 +3,13 @@ using OpenTK.Mathematics;
 
 namespace Graphics2026.Model.Actors
 {
-    internal class Transform
+    internal class Transform : Parent
     {
         public Vector3 localPosition;
         public Vector3 localRotation;
         public Vector3 localSize = Vector3.One;
 
-        private Transform? parent;
+        private IParent? parent;
         private List<Transform> children = new List<Transform>();
 
         private Matrix4 matrixMod = Matrix4.Identity;
@@ -32,59 +32,34 @@ namespace Graphics2026.Model.Actors
         public void SetMatrixMod(Matrix4 mod) => matrixMod = mod;
         public Matrix4 GetMatrixMod() => matrixMod;
 
-        public void SetParent(Transform? parent)
+        public void SetParent(IParent? newParent)
         {
-            if (parent != null && IsDescendentOfTransform(parent))
+            if (newParent != null && newParent is Transform && IsDescendentOfTransform((Transform)newParent))
             {
                 Console.WriteLine("Cannot set parent: parent is a child of transform");
                 return;
             }
 
-            if (this.parent != null)
+            if (parent != null)
             {
-                this.parent.children.Remove(this);
+                parent.GetChildren().Remove(this);
             }
 
             Matrix4 previousWorldTransform = WorldTransform();
-            this.parent = parent;
+            parent = newParent;
 
             matrixMod = previousWorldTransform * (LocalTransformWithoutMod() * ParentTransform()).Inverted();
 
-            if (parent == null)
+            if (newParent == null)
                 return;
 
-            parent.children.Add(this);
+            newParent.GetChildren().Add(this);
         }
 
-        /// <summary>
-        /// Checks if a transform is a descendent of this transform.
-        /// <br></br>
-        /// AKA is a child of the transform, or a child of a child and so on...
-        /// </summary>
-        /// <returns></returns>
-        public bool IsDescendentOfTransform(Transform descendent) => GetDescendents().Contains(descendent);
-
-        public Transform? GetChild(int i)
-        {
-            if (i < children.Count)
-                return children[i];
-
-            return null;
-        }
-        public List<Transform> GetChildren() => children;
-        public List<Transform> GetDescendents() 
-        {
-            List<Transform> descendents = [.. children];
-            foreach(Transform child in children)
-            {
-                descendents.AddRange(child.GetDescendents());
-            }
-
-            return descendents;
-        }
-        public Transform? GetParent() => parent;
+        public IParent? GetParent() => parent;
         public IRenderable GetRenderable() => renderable;
 
+        #region Matrices
         public Matrix4 LocalSize() => Matrix4.CreateScale(localSize);
         public Matrix4 LocalPosition() => Matrix4.CreateTranslation(localPosition);
         public Matrix4 LocalRotation() => Matrix4.CreateFromQuaternion(
@@ -99,15 +74,15 @@ namespace Graphics2026.Model.Actors
         {
             Matrix4 finalTransform = LocalTransform();
 
-            if (parent != null)
-                finalTransform = finalTransform * parent.WorldTransform();
+            if (parent != null && parent is Transform)
+                finalTransform = finalTransform * ((Transform)parent).WorldTransform();
 
             return finalTransform;
         }
         public Matrix4 ParentTransform()
         {
-            if (parent != null)
-                return parent.WorldTransform();
+            if (parent != null && parent is Transform)
+                return ((Transform)parent).WorldTransform();
 
             return Matrix4.Identity;
         }
@@ -121,5 +96,6 @@ namespace Graphics2026.Model.Actors
         public Vector3 OrientVector(Vector3 vec) => Vector3.TransformNormal(vec, WorldTransform()).Normalized();
         public Vector3 OrientVectorWithoutNormalization(Vector3 vec) 
             => Vector3.TransformNormal(vec, WorldTransform());
+        #endregion
     }
 }

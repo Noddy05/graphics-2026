@@ -14,6 +14,5 @@ namespace Graphics2026.Model.SceneManagement
         public static Scene CurrentScene() => currentScene;
         public static void AddToScene(IRenderable renderable) => currentScene.AddToScene(renderable);
         public static void AddToScene(Surface surface) => currentScene.AddToScene(surface);
-        public static List<Surface> GetSurfaces() => currentScene.GetSurfaces();
     }
 }
