@@ -1,7 +1,4 @@
-﻿using Graphics2026.Model.Attachments.CameraControls;
-using Graphics2026.Model.SceneManagement;
-using Graphics2026.Model.VertexData;
-using Graphics2026.View.Shading;
+﻿using Graphics2026.Model.VertexData;
 using OpenTK.Graphics.OpenGL;
 
 
@@ -14,11 +11,7 @@ namespace Graphics2026.Model.Actors
 
         public override void Render()
         {
-            ShaderProgram.DEFAULT.UseProgram();
-
-            ShaderProgram.DEFAULT.ApplyTransform(transform.WorldTransform());
-
-            base.Render();
+            base.RenderWithShader(shader);
         }
     }
 }

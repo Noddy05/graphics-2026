@@ -7,12 +7,9 @@ using OpenTK.Windowing.Desktop;
 using Graphics2026.Model.SceneManagement;
 using Graphics2026.Controller;
 using System.Diagnostics;
-using OpenTK.Windowing.GraphicsLibraryFramework;
-using Graphics2026.Model.Actors;
-using Graphics2026.Model.Mesh;
-using Graphics2026.View.Shading;
 using Graphics2026.Model.BufferObjects.UniformBufferObject;
 using Graphics2026.Model.Attachments.CameraControls;
+using Graphics2026.Model.FramebufferObject;
 
 namespace Graphics2026
 {
@@ -21,6 +18,8 @@ namespace Graphics2026
         private Renderer? renderer;
         private CameraBlock cameraUBO;
         private LightBlock lightUBO;
+        public FBO fbo;
+        public int fboTexture;
 
         private double timeSinceStart;
 
@@ -34,6 +33,9 @@ namespace Graphics2026
             cameraUBO = new CameraBlock(1, BufferUsageHint.StreamCopy);
             lightUBO = new LightBlock(2, BufferUsageHint.DynamicCopy);
             CenterWindow();
+
+            fbo = new FBO(Size);
+            fboTexture = fbo.AddTexture();
         }
 
         public Renderer? GetRenderer() => renderer;
@@ -58,6 +60,7 @@ namespace Graphics2026
             TestSceneFactory.InitializeScene();
             cameraUBO.projection = Camera.current!.GetProjection();
             lightUBO.BindData();
+
             IsVisible = true;
         }
 
@@ -108,8 +111,8 @@ namespace Graphics2026
 
         public static void PrintGLErrors()
         {
-            OpenTK.Graphics.OpenGL.ErrorCode err = GL.GetError();
-            while (err != OpenTK.Graphics.OpenGL.ErrorCode.NoError)
+            ErrorCode err = GL.GetError();
+            while (err != ErrorCode.NoError)
             {
                 Console.WriteLine(err);
                 err = GL.GetError();
@@ -117,16 +120,21 @@ namespace Graphics2026
         }
         public static void ClearGLErrors()
         {
-            while (OpenTK.Graphics.OpenGL.ErrorCode.NoError != GL.GetError());
+            while (GL.GetError() != ErrorCode.NoError);
         }
 
         private void DrawFrame(FrameEventArgs args)
         {
             base.OnRenderFrame(args);
+            PrintGLErrors();
 
             if (renderer == null)
                 return;
 
+            fbo.Bind();
+            GL.Clear(ClearBufferMask.ColorBufferBit);
+            renderer.RenderScene();
+            fbo.Unbind();
             renderer.RenderScene();
 
             Context.SwapBuffers();

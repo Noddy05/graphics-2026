@@ -16,14 +16,13 @@ namespace Graphics2026.View.Textures
 
         public static int GenerateColorTexture(Color4 color) => LoadNewTexture2D(
             [
-                (byte)(color.R * 255),
-                (byte)(color.G * 255),
                 (byte)(color.B * 255),
+                (byte)(color.G * 255),
+                (byte)(color.R * 255),
                 (byte)(color.A * 255),
             ], 1, 1);
 
-        public static int LoadNewTexture2D(string imagePath,
-            params (TextureParameterName textureParameterName, int parameter)[] parameters)
+        public static int LoadNewTexture2D(string imagePath, params TexParameter[] parameters)
         {
             if (!File.Exists(imagePath))
             {
@@ -34,7 +33,19 @@ namespace Graphics2026.View.Textures
             return LoadNewTexture2D(imageData, width, height, parameters);
         }
         public static int LoadNewTexture2D(byte[] imageData, int width, int height,
-            params (TextureParameterName textureParameterName, int parameter)[] parameters)
+            params TexParameter[] parameters)
+        {
+            int newTexture = CreateTexture2D(imageData, width, height, parameters);
+            GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
+
+            return newTexture;
+        }
+        public static int CreateTexture2D(byte[]? imageData, int width, int height,
+            params TexParameter[] parameters) => CreateTexture2D(imageData, width, height, 
+                PixelInternalFormat.Rgba, OpenTK.Graphics.OpenGL.PixelFormat.Bgra, parameters);
+        public static int CreateTexture2D(byte[]? imageData, int width, int height, 
+            PixelInternalFormat pixelInternalFormat, OpenTK.Graphics.OpenGL.PixelFormat pixelFormat,
+            params TexParameter[] parameters)
         {
             int newTexture = GL.GenTexture();
 
@@ -42,13 +53,16 @@ namespace Graphics2026.View.Textures
 
             foreach (var parameter in parameters)
             {
-                GL.TexParameter(TextureTarget.Texture2D, parameter.textureParameterName,
-                    parameter.parameter);
+                GL.TexParameter(TextureTarget.Texture2D, parameter.parameterName,
+                    parameter.parameterValue);
             }
 
-            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, width, height, 0,
-                OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, imageData);
-            GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
+            if (imageData != null)
+                GL.TexImage2D(TextureTarget.Texture2D, 0, pixelInternalFormat, width, height, 0,
+                    pixelFormat, PixelType.UnsignedByte, imageData!);
+            else
+                GL.TexImage2D(TextureTarget.Texture2D, 0, pixelInternalFormat, width, height, 0,
+                    pixelFormat, PixelType.UnsignedByte, 0);
 
             return newTexture;
         }

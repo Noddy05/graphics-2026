@@ -1,7 +1,4 @@
-﻿
-using System.Reflection.Metadata;
-
-namespace Graphics2026.Model.BufferObjects
+﻿namespace Graphics2026.Model.BufferObjects
 {
     internal interface IBufferObject : IDisposable
     {

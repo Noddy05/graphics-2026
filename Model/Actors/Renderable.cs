@@ -1,6 +1,7 @@
 ﻿using Graphics2026.Model.Attachments.CameraControls;
 using Graphics2026.Model.SceneManagement;
 using Graphics2026.Model.VertexData;
+using Graphics2026.View.Shading;
 using Graphics2026.View.Shading.Shaders;
 using OpenTK.Graphics.OpenGL;
 
@@ -55,13 +56,21 @@ namespace Graphics2026.Model.Actors
         public bool ShouldRender() => shouldRender;
         public void SetParent(IParent? parent) => GetTransform().SetParent(parent);
 
-        public virtual void RenderWithShader(PhysicalShader shader)
+        public virtual void RenderWithShader(PhysicalShader? shader)
         {
             if (mesh == null)
                 return;
 
-            shader.UseProgram();
-            shader.ApplyTransform(transform.WorldTransform());
+            if(shader == null)
+            {
+                ShaderProgram.DEFAULT.UseProgram();
+                ShaderProgram.DEFAULT.ApplyTransform(transform.WorldTransform());
+            } 
+            else
+            {
+                shader.UseProgram();
+                shader.ApplyTransform(transform.WorldTransform());
+            }
 
             mesh.PrepareForRendering();
             GL.DrawElements(primitiveType, mesh.NumIndices(), DrawElementsType.UnsignedInt, 0);
